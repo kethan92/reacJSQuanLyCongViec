@@ -2,8 +2,28 @@ import React, {Component} from 'react';
 import TaskItem from './TaskItem';
 
 class TaskList extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+        filterName:'',
+        filterStatus:-1
+    }
+  }
+  onChange = (e) => {
+      const target = e.target;
+      const name = target.name;
+      const value = target.value;
+      this.props.onFilter(
+          name === 'filterName' ? value : this.state.filterName,
+          name === 'filterStatus' ? value : this.state.filterStatus,
+      )
+      this.setState({
+        [name] : value
+      });
+  }
   render() {
-    const  { tasks,onUpdateStatus,onDelete } = this.props; // const tasks = this.props.tasks;
+      const  { tasks,onUpdateStatus,onDelete,onUpdate } = this.props; // const tasks = this.props.tasks;
+      const { filterName, filterStatus } = this.state;
       const  elmTasks = tasks.map((task,index)=> {
         return <TaskItem
                   key={task.id}
@@ -11,6 +31,7 @@ class TaskList extends Component {
                   task={task}
                   onUpdateStatus={onUpdateStatus}
                   onDelete={onDelete}
+                  onUpdate={onUpdate}
                 />
       });
     return (  <div className="row mt-15">
@@ -28,10 +49,21 @@ class TaskList extends Component {
               <tr>
                 <td></td>
                 <td>
-                  <input type="text" className="form-control"/>
+                  <input
+                      type="text"
+                      className="form-control"
+                      name="filterName"
+                      value={filterName}
+                      onChange={this.onChange}
+                  />
                 </td>
                 <td>
-                  <select className="form-control">
+                  <select
+                      className="form-control"
+                      value={filterStatus}
+                      name="filterStatus"
+                      onChange={this.onChange}
+                  >
                     <option value="-1">Tất Cả</option>
                     <option value="0">Ẩn</option>
                     <option value="1">Kích Hoạt</option>

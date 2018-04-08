@@ -9,11 +9,15 @@ class TaskItem extends Component {
   UpdateStatus=()=>{
     const { onUpdateStatus,task }=this.props;
     //console.log(task);
-      onUpdateStatus(task.id);
+      onUpdateStatus(task.id); //this.props.onUpdateStatus(this.props.task.id)
   }
   onDelete=()=>{
     const { onDelete,task }=this.props;
-    onDelete(task.id);
+    onDelete(task.id); //this.props.onDelete(this.props.task.id)
+  }
+  onUpdate=()=>{
+    const { onUpdate,task }=this.props;
+    onUpdate(task.id);
   }
   render() {
     const { task,index }=this.props; // var elmTaskItem=this.props.elmTaskItem
@@ -29,7 +33,11 @@ class TaskItem extends Component {
         </span>
       </td>
       <td className="text-center">
-        <button type="button" className="btn btn-warning">
+        <button
+            type="button"
+            className="btn btn-warning"
+            onClick={this.onUpdate}
+        >
           <span className="fa fa-pencil mr-5"></span>Sửa
         </button>
         &nbsp;
